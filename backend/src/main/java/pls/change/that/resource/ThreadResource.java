@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -35,11 +36,15 @@ public class ThreadResource {
     @Inject
     JsonWebToken jwt;
 
-    @POST
-    public Thread createThread(@Context SecurityContext context, Thread thread) {
-        checkRole(context, "user");
-        threadRepository.persist(thread);
-        return thread;
+    @GET
+    public List<Thread> getNearThreads(
+            @Context SecurityContext context,
+            @QueryParam("lat") double lat,
+            @QueryParam("lng") double lng,
+            @QueryParam("radius") double radius
+    ) {
+        // TODO actually filter
+        return threadRepository.findAll().list();
     }
 
     @GET
@@ -47,6 +52,13 @@ public class ThreadResource {
     public Thread getThread(@Context SecurityContext context, @PathParam("threadId") Long tid) {
         checkRole(context, "user");
         return getThreadOrThrow(tid);
+    }
+
+    @POST
+    public Thread createThread(@Context SecurityContext context, Thread thread) {
+        checkRole(context, "user");
+        threadRepository.persist(thread);
+        return thread;
     }
 
     @GET
@@ -59,13 +71,36 @@ public class ThreadResource {
 
     @POST
     @Path("{threadId}/comments/")
-    public List<Comment> addComment(@Context SecurityContext context, @PathParam(
-            "threadId") Long tid, Comment comment) {
+    public List<Comment> addComment(
+            @Context SecurityContext context,
+            @PathParam("threadId") Long tid, Comment comment
+    ) {
         checkRole(context, "user");
         Thread thread = getThreadOrThrow(tid);
         thread.comments.add(comment);
         threadRepository.persist(thread);
         return thread.comments;
+    }
+
+    @POST
+    @Path("{threadId}/comments/{commentId}/vote")
+    public Comment addVote(
+            @Context SecurityContext context,
+            @QueryParam("vote") boolean up,
+            @PathParam("threadId") Long tid,
+            @PathParam("commentId") Long cid
+    ) {
+        Thread thread = getThreadOrThrow(tid);
+        Comment comment = thread.comments.stream().filter(c -> c.getId().equals(cid))
+                .findFirst()
+                .orElseThrow(() -> new WebApplicationException(404));
+        if (up) {
+            comment.setUpvotes(comment.getUpvotes() + 1);
+        } else {
+            comment.setDownvotes(comment.getDownvotes() + 1);
+        }
+        threadRepository.persist(thread);
+        return comment;
     }
 
     private Thread getThreadOrThrow(Long tid) {
