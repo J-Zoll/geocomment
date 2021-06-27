@@ -89,9 +89,16 @@ components:
             id:
               type: integer
               format: int64
-            votes:
+            upvotes:
               type: integer
               format: int32
+            downvotes:
+              type: integer
+              format: int32
+            myvote:
+              type: string
+              enum: ["none", "downvote", "upvote"]
+
             created_at:
               type: number
               format: timestamp

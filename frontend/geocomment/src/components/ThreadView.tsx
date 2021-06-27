@@ -44,7 +44,8 @@ function sendReport(reason: string, commentId: number, threadId: number) {
       threadId: threadId,
       parentId: 0,
       content: "",
-      votes: 0,
+      upvotes: 5,
+      downvotes: 5,
     },
     reason: reason,
   });
@@ -62,35 +63,40 @@ function ThreadView(state: { thread: thread }) {
       parentId: 0,
       content:
         "Testerhfsdgghbfsgfsidgfdhgfdsgfgsgsdgdgsdssdgdgsgdfkahevhgfghahgdakgkhdgfghfkhdagfg",
-      votes: 5,
+      upvotes: 5,
+      downvotes: 5,
     },
     {
       id: 2,
       threadId: 100,
       parentId: 1,
       content: "dfsah[img:http://http.cat/201]",
-      votes: 3,
+      upvotes: 5,
+      downvotes: 5,
     },
     {
       id: 3,
       threadId: 100,
       parentId: 1,
       content: "dfsah[img:http://http.cat/202]",
-      votes: 3,
+      upvotes: 5,
+      downvotes: 5,
     },
     {
       id: 4,
       threadId: 100,
       parentId: 2,
       content: "dfsah[img:http://http.cat/203]",
-      votes: 3,
+      upvotes: 5,
+      downvotes: 5,
     },
     {
       id: 5,
       threadId: 100,
       parentId: 3,
       content: "dfsah[img:http://http.cat/204]",
-      votes: 3,
+      upvotes: 5,
+      downvotes: 5,
     },
   ] as comment[]);
 
@@ -135,11 +141,14 @@ function ThreadView(state: { thread: thread }) {
         }}
         selected={selectedCommentId === 0}
       />
-      {comments
-        .filter((c) => c.parentId === 0)
-        .map((c) => {
-          return renderComments(comments, c);
-        })}
+      <div>
+        {comments
+          .filter((c) => c.parentId === 0)
+          .map((c) => {
+            return renderComments(comments, c);
+          })}
+        <div style={{ paddingTop: "50px" }}></div>
+      </div>
       <Container fixed>
         <AppBar position="fixed" style={{ bottom: "0", top: "auto" }}>
           <WriteComment

@@ -74,7 +74,8 @@ function ThreadComment(state: {
             display: "flex",
           }}
         >
-          <Avatar className={classes.secondary}>{state.comment.votes}</Avatar>
+          <Avatar className={classes.secondary}>{state.comment.upvotes}</Avatar>
+          <Avatar className={classes.red}>{state.comment.downvotes}</Avatar>
         </Grid>
         <Grid
           item

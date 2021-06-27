@@ -48,7 +48,8 @@ function ThreadInfo(state: {
     threadId: state.thread.id,
     parentId: 0,
     content: state.thread.title + " " + state.thread.description,
-    votes: 0,
+    upvotes: 0,
+    downvotes: 0,
   };
 
   var reg = new RegExp(/(.*)\[img:(.*)\](.*)/g);

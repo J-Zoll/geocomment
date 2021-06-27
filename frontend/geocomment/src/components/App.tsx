@@ -22,6 +22,7 @@ import { UserContext } from "../contexts/UserContext";
 import React from "react";
 import RegisterView from "./RegisterView";
 import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
+import ReportsView from "./ReportsView";
 
 const theme = createMuiTheme({
   palette: {
@@ -65,7 +66,7 @@ function App() {
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
       />
       <Router>
-        <div style={{ backgroundColor: "#222222" }}>
+        <div>
           <nav>
             <ul>
               <li>
@@ -82,6 +83,9 @@ function App() {
               </li>
               <li>
                 <Link to="/register">RegisterView</Link>
+              </li>
+              <li>
+                <Link to="/report">ReportView</Link>
               </li>
             </ul>
           </nav>
@@ -127,6 +131,9 @@ function App() {
               </Route>
               <Route path="/register">
                 <RegisterView />
+              </Route>
+              <Route path="/report">
+                <ReportsView />
               </Route>
               <Route path="/">
                 <MapView />

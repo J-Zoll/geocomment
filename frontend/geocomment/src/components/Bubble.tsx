@@ -20,22 +20,23 @@ export function Bubble(state: { thread: thread }) {
     threadId: 42,
     parentId: 0,
     id: 123,
-    votes: 16,
+    upvotes: 16,
+    downvotes: 16,
     content: "Hey",
   };
 
   setTimeout(() => {
-    setIcon(getBubbleIcon(comment.votes, "blue"))
-    setLink("HelloImaLink")
-    setVisibily(true)
-  }, 10000)
+    setIcon(getBubbleIcon(comment.upvotes, "blue"));
+    setLink("HelloImaLink");
+    setVisibily(true);
+  }, 10000);
   //end dummy code
 
-    // Service.getComment(state.thread.id, COMMENT_ID_OF_ORIGINAL_COMMENT)
-    // .then((comment: comment) => {
-    //     setIcon(getBubbleIcon(comment.votes, "black"));
-    //     setVisibily(true);
-    // })
+  // Service.getComment(state.thread.id, COMMENT_ID_OF_ORIGINAL_COMMENT)
+  // .then((comment: comment) => {
+  //     setIcon(getBubbleIcon(comment.votes, "black"));
+  //     setVisibily(true);
+  // })
 
   return (
     <Marker
